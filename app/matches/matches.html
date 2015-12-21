@@ -1,7 +1,15 @@
 <link rel="stylesheet" href="css/card-stack.css">
 
 <ion-view title="Matches">
-  <ion-content scroll="false">
+  <ion-content scroll="false" id="larpa2">
+        <div id="mainDescription" class="card">
+
+      <div class="bar bar-header bar-dark">
+        <h1 class="title" id="headerName" style="color:white" ng-click="edit('headerName')">
+          Your Matches   <br> 
+        </h1>
+      </div>
+      <br><br>
     <td-cards>
       <td-card ng-repeat="(idx,card) in cards" on-destroy="cardDestroyed(idx)" on-swipe-left="swipeLeft()" on-swipe-right="swipeRight()" on-transition-left="transitionLeft()" on-transition-right="transitionRight()" on-transition-out="transitionOut()">
         <div class="list card">
@@ -14,5 +22,28 @@
         </div>
       </td-card>
     </td-cards>
+  </div>
   </ion-content>
 </ion-view>
+
+
+
+    
+
+
+
+  </ion-content>
+</ion-view>
+
+
+
+
+
+
+
+
+          
+
+
+
+

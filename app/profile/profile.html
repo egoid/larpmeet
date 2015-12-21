@@ -1,33 +1,29 @@
 <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
 <ion-view title="Profile" ng-init="init()">
-  <ion-content scroll="false" id="larpa2" on-swipe-right="goMatch()">
+  <ion-content scroll="false" id="larpa2" on-swipe="goMatch()">
 
-    <div id="mainDescription" class="card">
+    <div id="mainDescription" class="card" >
+      
       <div class="bar bar-header bar-dark">
         <h1 class="title" id="headerName" style="color:white" ng-click="edit('headerName')">
-          {{profileData.full_name}}   <br> 
+          {{userData.full_name}}   <br> 
         </h1>
       </div>
 
-    <div id="mainPic">
-      <p> {{picture}} </p>
-      <img style="width:100%" src="{{picture}}">
-    </div>
+      <div id="mainPic">
+        <img style="width:100%" src="{{userData.mainPic}}">
+      </div>
 
-     <img src="./img/viewmatches.png" style="width:100px;height:55px;float:left" />
-     <img src="./img/makematches.png" style="width:100px;float:right" /><br>
-          {{profileData.gender}}  <br>
-          {{profileData.location}} <br>
-<!--       <img ng-repeat="val in picSrc" src="{{val}}"> 
-          <hr> -->
-      <p>
-
+       <img src="./img/viewmatches.png" style="width:100px;height:55px;float:left" />
+       <img src="./img/makematches.png" style="width:100px;float:right" /><br>
+            {{userData.gender}}  <br>
+            {{userData.location}} <br><p>
       <div id="bio" ng-click="edit('bio')" contenteditable>
-        {{profileData.bio}}
-                  <button class="button" ng-click="modal.show()">show</button>
-     </div>
-      <a ng-click="save('headerName','bio')" style="position:fixed;bottom:5%;right:10%;"> save </a>
+        {{userData.bio}}
+      </div>
 
+      <a ng-click="save('headerName','bio')" style="position:fixed;bottom:5%;right:10%;"> save </a>
+      <a ng-click="modal.show()" style="position:fixed;bottom:5%;left:10%;"> edit pictures </a>
     <script id="modal.html" type="text/ng-template">
       <div class="modal">
         <header class="bar bar-header bar-dark">
@@ -35,16 +31,10 @@
           <div class="button button-dark" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
         </header>
         <content has-header="true" padding="true">
-        <a ng-click="chosePic" href="#">
-        <img ng-repeat="val in picSrc track by $index" src="{{val}}" style="width:64px;height:64px;margin-top:16;margin-right:8;margin-left:8px" />
-        </a>
+        <img ng-repeat="val in userData.photos track by $index" src="{{val}}" ng-click="choosePic($index)" style="width:64px;height:64px;margin-top:16;margin-right:8;margin-left:8px" />
         </content>
       </div>
     </script>
-    
-
-
-
   </ion-content>
 </ion-view>
 

@@ -16,6 +16,11 @@ angular.module('starry')
             url: '/matches',
             templateUrl: 'app/matches/matches.html',
             controller: 'memberMatchCtrl'
+        })
+        .state('chat', {
+          url: '/chat',
+          templateUrl: 'app/chat/chat.html',
+         controller: 'chatCtrl'
         });
     $urlRouterProvider.otherwise('/splash');
 });

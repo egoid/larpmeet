@@ -1,10 +1,12 @@
 'use strict';
 angular.module('starry').controller('memberMatchCtrl', memberMatchCtrl);
-memberMatchCtrl.$inject=['$scope', 'matchSvc', 'firebaseSvc'];
-function memberMatchCtrl ($scope, matchSvc, firebaseSvc) {
+memberMatchCtrl.$inject=['$scope', 'firebaseSvc'];
+function memberMatchCtrl ($scope, firebaseSvc) {
   var ref = firebaseSvc.returnFB();
-  // var geoRef = new GeoFire(ref);
-  // geoRef.query()
+  var userId = localStorage.userId;
+  // ref.child(userId).once("value", function(snapshot) {
+  //   console.log(snapshot.val());
+  // })
   var direction;
   $scope.cards = [
     {test:'one',

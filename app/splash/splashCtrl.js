@@ -1,131 +1,177 @@
 'use strict';
 
 angular.module('starry').controller("splashCtrl", splashCtrl);
-splashCtrl.$inject = ['$scope', '$http', '$cordovaOauth', '$localStorage', '$state' ];
-function splashCtrl ($scope, $http, $cordovaOauth, $localStorage, $state) {
-
+splashCtrl.$inject = ['$scope', '$http', '$cordovaOauth', '$localStorage', '$state', 'geoSvc', 'firebaseSvc'];
+function splashCtrl ($scope, $http, $cordovaOauth, $localStorage, $state, geoSvc, firebaseSvc) {
+    var ub = firebaseSvc.returnUB();
+    var geo = geoSvc.returnGeo();
+    var lat;
+    var lng;
+    $scope.init = function() {
+      window.fbAsyncInit = function() {
+          FB.init({
+            appId      : 434572043406554,
+            cookie     : true,  // enable cookies to allow the server to access 
+                                // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.2' // use version 2.2
+          });
+            FB.Event.subscribe('edge.create', function(response) {
+                window.top.location.href = 'url';
+            });
+          
+      }
+        navigator.geolocation.getCurrentPosition(function (position){
+            console.log(position);
+            lat = position.coords.latitude;
+            lng = position.coords.longitude;           
+         }, function (err){
+           console.log(err);
+         },{timeout: 10000, enableHighAccuracy:false});
+    };
     $scope.login = function() {
-      // console.log('aook')
-
-
+           FB.login(function(response) {
+            localStorage.access_token = (response.authResponse.accessToken);
+            statusChangeCallback(response);
+            }, {scope: "user_photos,publish_actions"}); 
+            // $cordovaOauth.facebook("434572043406554", ["user_photos, publish_actions"]).then(function(result) {
+            //     localStorage.access_token = JSON.stringify(result.access_token);
+            //     statusChangeCallback(response);
+            //     $state.go("profile");
+            // }, function(error) {
+            //     console.log(error);
+            //     })
+            // };
+    }
         // window.cordovaOauth = $cordovaOauth;
         // window.http = $http;
-        //   window.fbAsyncInit = function() {
-        //       FB.init({
-        //         appId      : 434572043406554,
-        //         cookie     : true,  // enable cookies to allow the server to access 
-        //                             // the session
-        //         xfbml      : true,  // parse social plugins on this page
-        //         version    : 'v2.2' // use version 2.2
-        //       });
-        //   }
+    function statusChangeCallback(response) {
+      if (response.status === 'connected') {
 
-  
-    };
+          apiDataCall();
 
-    navigator.geolocation.getCurrentPosition(function (position){
-       var lat = position.coords.latitude;
-       var lng = position.coords.longitude;
-       console.log(lat, lng);
-     }, function (err){
-       console.log(err);
-     },{timeout: 10000, enableHighAccuracy:false});
-
-    // $scope.login = FB.login(function(response) {
-    // console.log('FDSJHISURLHGILDF')
-    // // console.log(response);
-    // localStorage.access_token = (response);
-    // // statusChangeCallback(response);
-    // $location.path("/profile")
-    // }, {scope: "user_photos,publish_actions"});
-
-      function statusChangeCallback(response) {
-        if (response.status === 'connected') {
-
-          testAPI();
         } else if (response.status === 'not_authorized') {
-          document.getElementById('status').innerHTML = 'Please log ' +
-            'into this app.';
+           FB.login(function(response) {
+            localStorage.access_token = (response.authResponse.accessToken);
+            statusChangeCallback(response);
+
+            }, {scope: "user_photos,publish_actions"});
+
         } else {
-          document.getElementById('status').innerHTML = 'Please log ' +
-            'into Facebook.';
+          console.log('fuck u')
         }
-      };
+        
+    };
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    function apiDataCall() {
 
-          function testAPI() {
-        $http.get("https://graph.facebook.com/v2.5/me", { params: { access_token: localStorage.access_token, fields: "id,name,gender,location,picture", format: "json" }}).then(function(result) {
-            fb.on("value", function(snapshot) {
-                if (snapshot.child(result.data.id).exists() === "false" ) {
-                //NEW FACEBOOK LOGIN? CREATE FIREBASE DATAe) {
-                    fb.set({
-                        [result.data.id]: {
-                            [result.data.id]: "userid",
-                            full_name: result.data.name ,
-                            location: result.data.location.name,
-                            picture: result.data.picture.data.url,
-                            gender: result.data.gender,
-                            bio: "what's your story?",
-                            geo: "",
-                            matches: {},
-                        }
-                    })
+//USE ACCESS TOKEN TO PULL FACEBOOK ID
+        $http.get("https://graph.facebook.com/v2.5/me", { params: { access_token: localStorage.access_token, fields: "id,name,gender,location", format: "json" }}).then(function(result) {
+            console.log(result.data);
+            var USERID = result.data.id;
+            localStorage.USERID = USERID;
+            $state.go("profile")
+
+            console.log(result.data.name);
+            console.log(result.data.location);
+            ub.once("value", function(snapshot) {
+//NO DATA FOR USER? CREATE NEW ONE !    
+                if (snapshot.child(USERID).exists() == false) {
+                    console.log('USER DOESNT EXIST, CREATING NEW DATA')
+                    $http.get("https://graph.facebook.com/v2.5/"+USERID+"/picture", { params: {access_token: localStorage.access_token , redirect: "false", type: "large"}}).then(function(pictureResponse) {
+        //GOT THE MAIN PIC !
+                        var mainPic = (pictureResponse.data.data.url);
+                        console.log(mainPic);
+                        FB.api("/me/photos", {type: "uploaded"}, function(photosId) {
+                            var pics = [];
+                            for (var key in photosId.data) {
+                                var thumbnails = [];
+                                var url = "/" + photosId.data[key].id ;
+        //GETTING ALL PHOTOS & THUMBNAILS !
+                                FB.api(url, {fields: "images,picture"}, function (pictureUrls) {
+                                    console.log(pictureUrls)
+                                    var imgUrl = pictureUrls.images[4].source;
+                                    var thumbUrl = pictureUrls.picture;
+                                    thumbnails.push(thumbUrl);
+                                    pics.push(imgUrl);
+                                    if (Number(key) === photosId.data.length - 1) {
+                                        // console.log("photo urls --- " + pics)
+        //GOT GEO COORDS !              
+                                        $state.go("profile")
+
+                                        navigator.geolocation.getCurrentPosition(function (position){
+                                            var lat = position.coords.latitude;
+                                            var lng = position.coords.longitude;           
+                                            newFireBaseUser(USERID, 
+                                                            result.data.name, 
+                                                            result.data.location.name, 
+                                                            result.data.gender,
+                                                            "whats your story?",
+                                                            pics,
+                                                            mainPic,
+                                                            lat,
+                                                            lng
+                                                            )
+                                         }, function (err){
+                                           console.log(err);
+                                         },{timeout: 10000, enableHighAccuracy:false});
+                                    }
+                                });
+                            };
+                        });
+                    }, function(error) {
+                        console.log(error);
+                    });
                 };
-                //STORE CURRENTLY LOGGED IN USER ID
-                fb.child(result.data.id).once("value", function(snapshot) {
-                    var str = snapshot.val();
-                    str.id = result.data.id;
-                    str.picture = result.data.picture.data.url;
-                    localStorage.userData = JSON.stringify(str);
-                    console.log(JSON.stringify(snapshot.val()));
-                });
-            })
+                if (snapshot.child(USERID).exists() == true) {
+                    geo.set({
+                        [USERID] : [ lat , lng ]
+                    }).then(function() {
+                        console.log('geo coords added');
+                    }, function(error) {
+                        console.log('geo error: ' + error);
+                    })
+                    $state.go("profile")
 
+                }
+
+            });
+        }, function(error) {
+            console.log(error)
         });
-                    // $.http("https://graph.facebook.com/v2.5/result.data.id/picture").then(function(response) {
-                    //     console.log(response)
-                    //     // localStorage.picture = JSON.stringify(response);
+    };
+    function newFireBaseUser(uId, name, location, gender, bio, photos, main, lat, lng) {
 
-                    // }, function(error) {
-                    //     console.log(error);
-                    // });
-            // FB.api("/me/photos", {type: "uploaded"}, function(results) {
-            //     var pics="";
-            //     for (key in results.data) {
-            //         pics+=(results.data[key].id+"_")
-            //     };
-            //     localStorage.profilePictures = '';
-            //     localStorage.thumbnails = ''
-            //     //GETS ALL USER PHOTO'S ID'S AND STORES IN PICS;
-            //     var x = pics.split('_');
-            //     x.forEach(function(url){
-            //         var url = "/"+url;
-            //         FB.api(url, {fields: "images,picture"}, function (response) {
-                        
-            //             var imgUrl = response.images[4].source;
-            //             var thumbUrl = response.picture;
-            //             localStorage.thumbnails+=(imgUrl + "*");
-            //             localStorage.profilePictures+=(imgUrl + "*");
-            //         })
-                    //STORES USER PHOTO URLS IN LOCALSTORAGE
+        ub.set({
+            [uId]: {
+                [uId]: "userid",
+                full_name: name ,
+                location: location,
+                gender: gender,
+                bio: bio,
+                photos: photos,
+                mainPic: main,
+                lat: lat,
+                lng: lng
+            }
+        })
+
+    };
+}
+
+
+
+
 
                 
-            };
-//GETS ALL USER PHOTOS URLS ID'S AND STORES IN LOCAL STORAGE
-            // console.log('Welcome!  Fetching your information.... ');
-            // FB.api('/me/permissions', function(response) {
-            //     if (response['data'][0]['user_photos']) {
-            //         console.log('has the win!')
-            //     }
-            // });
 
-          }
-          (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-          }(document, 'script', 'facebook-jssdk'));
+          
 
-// CORDOVA OAUTH FOR APPS
+// // CORDOVA OAUTH FOR APPS
 
