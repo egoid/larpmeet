@@ -5,7 +5,9 @@ angular.module('starry').service('firebaseSvc', firebaseSvc);
 function firebaseSvc() {
   var fb = new Firebase('https://larpameet.firebaseio.com/');
   var gb = new Firebase('https://larpameet.firebaseio.com/geo/');
-  var ub = new Firebase('https://larpameet.firebaseio.com/users/');
+  var ui = new Firebase('https://larpameet.firebaseio.com/userinfo/');
+  var uk = new Firebase('https://larpameet.firebaseio.com/userkeys/');
+  var cv = new Firebase('https://larpameet.firebaseio.com/convo/');
   
 
   this.returnFB = function() {
@@ -14,7 +16,13 @@ function firebaseSvc() {
   this.returnGB = function() {
     return gb;
   }
-  this.returnUB = function() {
-    return ub;
+  this.returnUI = function() {
+    return ui;
+  }  
+  this.returnUK = function() {
+    return uk;
+  }  
+  this.returnCV = function() {
+    return cv;
   }
 }

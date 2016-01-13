@@ -1,25 +1,46 @@
 <link rel="stylesheet" href="css/card-stack.css">
-
+<link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
 <ion-view title="Matches">
-  <ion-content scroll="false" id="larpa2">
-        <div id="mainDescription" class="card">
 
-      <div class="bar bar-header bar-dark">
-        <h1 class="title" id="headerName" style="color:white" ng-click="edit('headerName')">
-          Your Matches   <br> 
-        </h1>
-      </div>
-      <br><br>
+  <ion-content scroll="false" id="larpa2" ng-init="init()">
+
+
+  <div id="mainDescription" class="card">
+
+
     <td-cards>
       <td-card ng-repeat="(idx,card) in cards" on-destroy="cardDestroyed(idx)" on-swipe-left="swipeLeft()" on-swipe-right="swipeRight()" on-transition-left="transitionLeft()" on-transition-right="transitionRight()" on-transition-out="transitionOut()">
-        <div class="list card">
-          <div class="item item-divider">
-            {{card.test}}
+
+        <div ng-show="hideme">
+          <div class="bar bar-header bar-dark">
+            <h1 class="title" id="headerName" style="color:white">
+              There's no one left...
+            </h1> 
           </div>
-          <div class="item item-body">
-            <img ng-src="{{card.picUrl}}" class="full-image">
+
+          <a class="aLink" ng-click="goProfile()" style="position:fixed;bottom:5%;left:10%;"> back to profile </a>
+          <a class="aLink" ng-click="goMatch()" style="position:fixed;bottom:5%;right:10%;"> view matches </a>
+        </div>
+
+        <div class="list card" ng-hide="hideme">
+          <div class="item item-divider" id="carded">
+            {{card.name}}
+          </div>
+
+          <div class="item item-body" id="cardedInfo">
+            <img ng-src="{{card.pic}}" class="full-image">
+            <p>
+              {{card.gender}}
+            </p>
+            <p>
+              {{card.bio}}
+            </p>
+                <a class="aLink" ng-click="goProfile()" style="position:fixed;bottom:5%;left:10%;"> back to profile </a>
+                <a class="aLink" ng-click="goChat()" style="position:fixed;bottom:5%;right:10%;"> view matches </a>
           </div>
         </div>
+
+
       </td-card>
     </td-cards>
   </div>

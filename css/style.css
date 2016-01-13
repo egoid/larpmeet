@@ -1,8 +1,16 @@
 .bar.bar-header.bar-light {
   height:10%;
 }
-h1#headerName {
+h1#headerName  {
   font-family: 'Quicksand', sans-serif;
+}
+a.aLink  {
+  font-family: 'Quicksand', sans-serif;
+}
+#phone{
+  background-color:#919191;
+  height:100vh;
+  position:static;
 }
 #mainPic {
   margin-top:15%;
@@ -19,6 +27,34 @@ h1#headerName {
   text-align:center;
   width:85%;
   height:95%;
+}
+#cardDiv {
+  position:relative;
+  font-family: 'Quicksand', sans-serif;
+  left:4.5%;
+  text-align:center;
+  width:85%;
+  height:95%;
+  margin-top:0;  
+}
+#carded {
+  background-color:#444444;
+  font-family: 'Quicksand', sans-serif;
+  color:white;
+  height:100%;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-color:black;
+}
+#cardedInfo {
+  background-color:#222223;
+  font-family: 'Quicksand', sans-serif;
+  color:white;      
+  height:100vh;
+  border-width:0;
+}
+p.ng-binding { 
+  color:white;
 }
 #home {
 font-family: 'Quicksand', sans-serif;

@@ -1,23 +1,36 @@
 <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
 <ion-view title="Profile" ng-init="init()">
-  <ion-content scroll="false" id="larpa2">
+  <ion-content scroll="false" on-swipe-right="goProfile()" id="larpa2">
 
     <div id="mainDescription" class="card">
       <div class="bar bar-header bar-dark">
         <h1 class="title" id="headerName" style="color:white" ng-click="edit('headerName')">
-          Your Matches   <br> 
+          Your Matches
         </h1>
       </div>
       <br>
-      <div id="mainPic">chat
-        matches
-        
+      <div id="mainPic" style="width:100%;height:100%;margin:auto;top:50px">
+        <div style="width:75%;height:100px;position:absolute;left:-10%">
+        <ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager="false">
+          <ion-slide ng-repeat="key in matches track by $index">
+            <div style="position:absolute;border:white;position:relative;float:left;padding:5px" ng-click="changeChat($index)">
+              <img src="{{key.matchPic}}" style="width:50px;height:50px"> 
+              <br>
+              {{key.matchName}}
+              <br><br>
+            </div>
+          </ion-slide>
+        </div>
+        </ion-slide-box>  
+      <div class="chatbox" style="background-color:#444444;width:85%;height:100%;position:absolute;top:100px;left:-10%;color:black;text-align:left">
       </div>
-
-    
-
-
-
+      <ul class="incoming" style="background-color:#444444;color:white;text-align:left;float:left;left:0;position:absolute;width:100%" ng-model="incoming">
+      </ul>
+    </div>
+    <div class="bar bar-footer" style="background-color:#222223">
+      <input type="text" class="inputter" name="sender" placeholder="Your partner's waiting"> 
+      <button class="button button-dark pull-right" ng-click="sendChat()"> Send Msg</button>
+    </div>
   </ion-content>
 </ion-view>
 
