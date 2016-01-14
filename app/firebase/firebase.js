@@ -9,19 +9,18 @@ function firebaseSvc() {
   var uk = new Firebase('https://larpameet.firebaseio.com/userkeys/');
   var cv = new Firebase('https://larpameet.firebaseio.com/convo/');
   
-
   this.returnFB = function() {
     return fb;
-  }
+  };
   this.returnGB = function() {
     return gb;
-  }
+  };
   this.returnUI = function() {
     return ui;
-  }  
+  };  
   this.returnUK = function() {
     return uk;
-  }  
+  };  
   this.returnCV = function() {
     return cv;
   }

@@ -20,11 +20,8 @@ function memberMatchCtrl ($scope, $state, $rootScope, firebaseSvc) {
     yourMatches = $rootScope.yourData.matches;
     $scope.cards = $rootScope.geoUsers;
     counter = $scope.cards.length;
-    console.log($scope.cards);
-  } 
-
+  }; 
   function herLikes(her, match) {
-    console.log(her);
     userKEYS.child(her).once("value", function(snapshot){
       var herId = snapshot.val();
       match.unshift(herId);
@@ -35,7 +32,6 @@ function memberMatchCtrl ($scope, $state, $rootScope, firebaseSvc) {
 
       userINFO.once("value", function(snapshot) {
         for (var key in snapshot.child(herId).child("likes").val()) {
-          console.log("YOU GOT A HIT NIGGA");
           if (snapshot.child(herId).child("likes").val()[key][0] == yourKey) {
             var newConvo = userCONVO.push([true])
             var newConvoKey = newConvo.key();
@@ -48,9 +44,7 @@ function memberMatchCtrl ($scope, $state, $rootScope, firebaseSvc) {
                               matchKey: herId,
                               matchName: match[2],
                               matchPic: match[1]});
-
             $rootScope.yourMatches = yourMatches;
-
             userINFO.child(herId).child("matches").set(herMatches);
             userINFO.child(yourKey).child("matches").set(yourMatches);
           }
@@ -58,15 +52,13 @@ function memberMatchCtrl ($scope, $state, $rootScope, firebaseSvc) {
       })
     })
   };
-
   function addHerNewMatch(id) {
     userINFO.once("value", function(snapshot) {
       var herLikes = snapshot.child(id).child("likedBy").val();
       herLikes.push([yourKey, yourData.pic, yourData.name])
       userINFO.child(id).child("likedBy").set(herLikes);
     });
-  }
-
+  };
   $scope.cardDestroyed = function(index) {
     counter-= 1;
     if (direction === 'right') {
@@ -74,7 +66,7 @@ function memberMatchCtrl ($scope, $state, $rootScope, firebaseSvc) {
                     $scope.cards[index].name ];            
       var herId = $scope.cards[index].FBID;
       herLikes(herId, match);
-    }
+    };
     $scope.cards.splice(index, 1);
     if (counter > 0) {
       var newCard = {
@@ -83,35 +75,30 @@ function memberMatchCtrl ($scope, $state, $rootScope, firebaseSvc) {
         gender: $scope.cards[index].gender,
         id: $scope.cards[index].FBID
       };
-    }
+    };
     if (counter === 0) {
       $scope.hideme = true
-    }
+    };
     $scope.cards.push(newCard);
-    console.log('destroy, '+direction);
   };
   $scope.swipeLeft = function() {
-    console.log('swiped left');
     direction = 'left';
   };
   $scope.swipeRight = function (){
     direction='right';
-    console.log('swiped right');
-  }
+  };
   $scope.transitionLeft = function (){
-    console.log('transition left');
     direction = 'left';
-  }
+  };
   $scope.transitionRight = function (){
-    console.log('transition right');
     direction = 'right';
-  }
+  };
   $scope.goChat = function() {
     userINFO.child(yourKey).on("value", function(snapshot){
       $rootScope.yourData = snapshot.val();
       $state.go("chat");
     })
-  }
+  };
   $scope.goProfile = function() {
     userINFO.child(yourKey).on("value", function(snapshot){
       $rootScope.yourData = snapshot.val();

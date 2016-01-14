@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * &apos;unsafe-inline&apos;; script-src * &apos;unsafe-inline&apos; &apos;unsafe-eval&apos; localhost:35729">
+        <title> l a r p a m e e t</title>
+        <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <script src="lib/ionic/js/ionic.bundle.js"></script>
+        <script src="js/ngStorage.min.js"></script>
+        <script src="js/ng-cordova.min.js"></script>
+        <script src="cordova.js"></script>
+        <script src="lib/firebase/firebase.js"> </script>
+        <script src="lib/angularfire/dist/angularfire.min.js"></script>
+        <script src="lib/ionic-ion-tinder-cards/ionic.tdcards.js"></script>
+        <script src="lib/collide/collide.js"></script>
+        <script src="lib/rsvp/rsvp.min.js"></script>
+        <script src="lib/geofire/dist/geofire.js"></script>
+        <script src="lib/jquery/dist/jquery.min.js"></script>
 
-    <title> l a r p a m e e t</title>
-
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="js/ngStorage.min.js"></script>
-    <script src="js/ng-cordova.min.js"></script>
-    <script src="cordova.js"></script>
-    <script src="lib/firebase/firebase.js"> </script>
-    <script src="lib/angularfire/dist/angularfire.min.js"></script>
-    <script src="lib/ionic-ion-tinder-cards/ionic.tdcards.js"></script>
-    <script src="lib/collide/collide.js"></script>
-    <script src="lib/rsvp/rsvp.min.js"></script>
-    <script src="lib/geofire/dist/geofire.js"></script>
-    <script src="lib/jquery/dist/jquery.min.js"></script>
-
-    <script src="app/app.js"></script>
-    <script src="app/matches/memberMatchCtrl.js"></script>
-    <script src="app/geo/geo.js"></script>
-    <script src="app/firebase/firebase.js"> </script>
-    <script src="app/chat/chatCtrl.js"></script>
-    <script src="app/profile/profileCtrl.js">l</script>
-    <script src="app/splash/splashCtrl.js"></script>
-    <script src="app/routes/routes.js"></script>
-  </head>
- <body ng-app="starry" class="platform-browser platform-cordova platform-webview" id="bgimg">
-    <div id="phone">
-        <img src="../img/iphone.jpg">
-
-
-        <div style="width:320px;height:568px;background-color:black;position:absolute;left:138px;top:142px;overflow:hidden">
+        <script src="app/app.js"></script>
+        <script src="app/matches/memberMatchCtrl.js"></script>
+        <script src="app/geo/geo.js"></script>
+        <script src="app/firebase/firebase.js"> </script>
+        <script src="app/chat/chatCtrl.js"></script>
+        <script src="app/profile/profileCtrl.js">l</script>
+        <script src="app/splash/splashCtrl.js"></script>
+        <script src="app/routes/routes.js"></script>
+    </head>
+    <body ng-app="starry" class="platform-browser platform-cordova platform-webview" id="bgimg">
+        <div id="phone">
+            <img src="https://raw.githubusercontent.com/egoid/larpmeet/master/img/iphone.jpg">
+            <div id="phoneHolder">
                 <ion-nav-view></ion-nav-view>
+            </div>
         </div>
-    </div>
-
     </body>
+        <div id="console">
+        </div>
 </html>

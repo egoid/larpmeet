@@ -7,16 +7,69 @@ h1#headerName  {
 a.aLink  {
   font-family: 'Quicksand', sans-serif;
 }
+.chatbox {
+  background-color:#444444;
+  width:279px;
+  height:351px;
+  position:absolute;
+  top:100px;
+  left:-48px;
+  color:white;
+  text-align:left
+}
+.incoming {
+  background-color:#444444;
+  color:white;
+  text-align:left;
+  float:left;
+  left:0;
+  position:absolute;
+  width:100%
+}
 #phone{
   background-color:#919191;
   height:100vh;
-  position:static;
+  position:static
+}
+#phoneHolder {
+  width:320px;
+  height:568px;
+  background-color:black;
+  position:absolute;
+  left:138px;
+  top:142px;
+  overflow:hidden
 }
 #mainPic {
   margin-top:15%;
   position:relative;
   left:17.5%;
   width:65%;
+}
+#mainPicChat{
+  width:100%;
+  height:100%;
+  margin:auto;
+  top:50px
+}
+.mainPic {
+  width:100%;
+  height:100%;
+  margin:auto;
+  top:50px
+}
+.innerChat{
+  width:75%;
+  height:100px;
+  position:absolute;
+  left:-10%
+}
+.changeChat {
+  position:absolute;
+  border:white;
+  position:relative;
+  float:left;
+  padding:5px
 }
 #mainDescription {
   position:relative;
@@ -27,6 +80,35 @@ a.aLink  {
   text-align:center;
   width:85%;
   height:95%;
+}
+#viewMatches{
+  width:100px;
+  height:55px;
+  float:left
+}
+#makeMatches {
+  width:100px;
+  float:right
+}
+#bottomLeft{
+  position:fixed;
+  bottom:5%;
+  left:10%;
+}
+#bottomRight {
+   position:fixed;
+   bottom:5%;
+   right:10%;
+}
+#console {
+  position:fixed;
+  width:auto;
+  height:50px;
+  color:white;
+  bottom:0px;
+  left:0px;
+  z-index:999;
+  text-align:right;
 }
 #cardDiv {
   position:relative;

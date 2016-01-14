@@ -1,41 +1,35 @@
 <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
 <ion-view title="Profile" ng-init="init()">
   <ion-content scroll="false" id="larpa2" on-swipe-right="goMatch()" on-swipe-left="goChat()">
-
     <div id="mainDescription" class="card" >
-      
       <div class="bar bar-header bar-dark">
         <h1 class="title" id="headerName" style="color:white" ng-click="edit('headerName')">
           {{userData.name}}   <br> 
         </h1> 
       </div>
-
       <div id="mainPic">
         <img style="width:100%" src="{{userData.pic}}">
       </div>
-
-       <img src="./img/viewmatches.png" style="width:100px;height:55px;float:left" />
-       <img src="./img/makematches.png" style="width:100px;float:right" /><br>
-            {{userData.gender}}  <br>
-<p>
+       <img src="./img/viewmatches.png" id="viewMatches" />
+       <img src="./img/makematches.png" id="makeMatches" />
+       <br> {{userData.gender}}  <br> <p>
       <div id="bio" ng-click="edit('bio')">
         {{userData.bio}}
       </div>
-
-      <a ng-click="save('headerName','bio')" style="position:fixed;bottom:5%;right:10%;"> save </a>
-      <a ng-click="modal.show()" style="position:fixed;bottom:5%;left:10%;"> edit pictures </a>
-    <script id="modal.html" type="text/ng-template">
-      <div class="modal">
-        <header class="bar bar-header bar-dark">
-          <h1 class="title">Choose</h1>
-          <div class="button button-dark" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
-        </header>
-        <content has-header="true" padding="true">
-        <br><br><br><br>
-        <img ng-repeat="val in userData.photos track by $index" src="{{val}}" ng-click="choosePic($index)" style="width:64px;height:64px;margin-top:16;margin-right:8;margin-left:8px" />
-        </content>
-      </div>
-    </script>
+      <a ng-click="save('headerName','bio')" id="bottomRight"> save </a>
+      <a ng-click="modal.show()" id="bottomLeft"> edit pictures </a>
+      <script id="modal.html" type="text/ng-template">
+        <div class="modal">
+          <header class="bar bar-header bar-dark">
+            <h1 class="title">Choose</h1>
+            <div class="button button-dark" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+          </header>
+          <content has-header="true" padding="true">
+          <br><br><br><br>
+          <img ng-repeat="val in userData.photos track by $index" src="{{val}}" ng-click="choosePic($index)" style="width:64px;height:64px;margin-top:16;margin-right:8;margin-left:8px" />
+          </content>
+        </div>
+      </script>
   </ion-content>
 </ion-view>
 

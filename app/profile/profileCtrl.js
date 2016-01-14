@@ -17,33 +17,26 @@ function profileCtrl($scope, $http, $localStorage, $state, $rootScope, $ionicMod
       userKEYS.once("value", function(snapshot) {
           yourKey = snapshot.child(yourData.FBID).val();
           $rootScope.yourKey = yourKey;
-          console.log(yourKey);
         $scope.userData = yourData;
         var geoQuery = geo.query({
             center: [ yourData.lat , yourData.lng ],
             radius: 9988888
         });
         var onReadyRegistration = geoQuery.on("ready", function() {
-          console.log("GeoQuery has loaded and fired all other events for initial data");
         });
         var onKeyEnteredRegistration = geoQuery.on("key_entered", function(aUserId, location, distance) {
-          console.log(yourKey)
           if (aUserId !== yourKey) {
-            console.log(aUserId + " is in ur domain mang");
             addNearby(aUserId, distance)
           }
         });
       });
-    }
-
+    };
     function addNearby(userId, distance) {
       userINFO.child(userId).once("value", function(snapshot) {
         var aUser = snapshot.val();
         geoUsers.push(aUser);
-        console.log(geoUsers);
       })
-    }
-    
+    };
     $scope.edit = function(elemId) {
         var x =document.getElementById(elemId)
         x.setAttribute('contenteditable', 'true')
@@ -55,7 +48,6 @@ function profileCtrl($scope, $http, $localStorage, $state, $rootScope, $ionicMod
         animation: 'slide-in-up'
     });
     $scope.choosePic = function(e) {
-        console.log(this)
     }; 
     $scope.save = function(name,bio) {
         var updateName = document.getElementById(name).innerText;

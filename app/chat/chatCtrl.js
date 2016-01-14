@@ -17,9 +17,9 @@ function chatCtrl($scope, $state, $rootScope, firebaseSvc) {
         yourMatches = $rootScope.yourData.matches;
         yourMatches.shift();
         $scope.matches = yourMatches;
-        console.log(yourMatches);
     };
     $scope.changeChat = function(index) {
+        $("div.chatbox ul").remove();        
         convoKey = $scope.matches[index].convoKey;
         matchId = $scope.matches[index].matchKey;
         userCONVO.child(convoKey).once("value", function(snapshot) {
@@ -28,51 +28,37 @@ function chatCtrl($scope, $state, $rootScope, firebaseSvc) {
             if (chatHistory.length > 1) {
                 $scope.chatHistory = chatHistory;
                 chatHistory.shift();
-                var chatbox = $(".chatbox");
-                $("div.chatbox ul").remove();
-                // chatHistory.forEach(function(x,i){
-                //     if (i == 0) {
-                //         var firstClone = $(".incoming").clone();
-                //         firstClone.removeClass().addClass("lastOne").text(x).appendTo(chatbox);
-                //     } else {
-                //         var cloned = $(".incoming").clone();
-                //         cloned.removeClass().text(x).appendTo($(".lastOne"));
-                //         $(".lastOne").removeClass();
-                //         cloned.addClass("lastOne");
-                //     }
-                // });                
+                var chatbox = $(".chatbox");              
             }
         })
-    }
+    };
     function dataListenTo(id) {
-        console.log("adding a listener");
         userCONVO.child(convoKey).on("child_added", function(snapshot) {
             var saveString = snapshot.val();
-            console.log(saveString);
-            var y = $("div.chatbox ul");
-            console.log(y.length);
-            var x = $(".incoming").clone().removeClass().text(saveString);
-            if (y.length === 0) {
-                x.appendTo($(".chatbox"));
-                x.addClass("lastOne");
-                chatHistory.push("");
-                $(".inputter").val("");   
-            } else {
-                x.appendTo($(".lastOne"));
-                $(".lastOne").removeClass();
-                x.addClass("lastOne");
-                $(".inputter").val("");   
+            if (saveString !== true) {
+                var y = $("div.chatbox ul");
+                var x = $(".incoming").clone().removeClass().text(saveString);
+                if (y.length === 0) {
+                    x.appendTo($(".chatbox"));
+                    x.addClass("lastOne");
+                    chatHistory.push("");
+                    $(".inputter").val("");   
+                } else {
+                    x.appendTo($(".lastOne"));
+                    $(".lastOne").removeClass();
+                    x.addClass("lastOne");
+                    $(".inputter").val("");   
+                }
             }
         })
-    }
+    };
     $scope.sendChat = function() {
         str = $(".inputter").val();
         var saveString = yourData.name + " : " + str;
         chatHistory.push(saveString);
         userCONVO.child(convoKey).set(chatHistory);
-    }
+    };
     $scope.goProfile = function() {
       $state.go("profile");
     }
-};
-
+}
